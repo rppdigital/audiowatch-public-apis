@@ -1,0 +1,89 @@
+swagger: '2.0'
+info:
+  description: Audiowatch Radio API - v0.0.2
+  version: 0.0.1
+  title: Audiowatch Radio API
+  contact:
+    email: mdgruporpp@gmail.com
+host: dev.radio.rpp.pe
+basePath: /now
+schemes:
+  - https
+paths:
+  /stations:
+    get:
+      tags:
+        - All Stations
+      summary: Get all Radio stations
+      description: Get all Radio stations metadata
+      operationId: listStations
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Results'
+  /live:
+    get:
+      tags:
+        - Single Station
+      summary: Get radio metadata
+      description: Get radio metadata by each station
+      operationId: getStation
+      produces:
+        - application/json
+      parameters:
+        - name: rpIds
+          in: query
+          description: Value of radio_estacion_id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Station'
+definitions:
+  Results:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/Station'
+  Station:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+      sitio:
+        type: string
+        example: rpp
+      nombre:
+        type: string
+        example: RPP Noticias
+      descripcion:
+        type: string
+        example: Noticias del Perú y del Mundo
+      streaming_url:
+        type: string
+        example: 'https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_RPP.mp3?DIST=RPPplayer&TGT=RPPplayer&maxServers=2&ua=RadioTime&ttag=RadioTime'
+      radio_estacion_id:
+        type: string
+        example: '43'
+      rpId:
+        type: integer
+        example: '43'
+      metadataApiUrl:
+        type: string
+        example: 'https://dev.radio.rpp.pe/now/live?rpIds=43'
+      imageStationUrl:
+        type: string
+        example: 'https://dev-rpp-media.s3-us-west-2.amazonaws.com/cutter/2019/08/13/1565733202.svg'
